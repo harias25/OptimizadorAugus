@@ -205,3 +205,20 @@ class Operacion(Expresion):
         elif(self.tipo == TIPO_OPERACION.NOTR):
             return "~"+self.operadorIzq.generarAugus()
         
+
+    # temporal = temporal + 0
+    # temporal = 0 + temporal
+    def validarRegla8(self,id):
+        if self.operadorIzq.tipo == TIPO_OPERACION.ID and self.operadorDer.tipo == TIPO_OPERACION.PRIMITIVO:
+            if(self.operadorIzq.valor == id):
+                value = self.operadorDer.generarAugus()
+                if(value == "0"):
+                    return True
+        
+        elif self.operadorDer.tipo == TIPO_OPERACION.ID and self.operadorIzq.tipo == TIPO_OPERACION.PRIMITIVO:
+            if(self.operadorDer.valor == id):
+                value = self.operadorIzq.generarAugus()
+                if(value == "0"):
+                    return True
+
+        return False
