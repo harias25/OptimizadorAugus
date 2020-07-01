@@ -27,8 +27,7 @@
 - pip install qscintilla --no-cache-dir
 
 ## Generación de Archivos de Analizadores
-- python .\ascendente.py
-- python .\AnalizadorDescendente\descendente.py
+- python .\Optimizador\grammarOptimizacion.py.py
 
 ## Ejecutar el Programa Funcional
 - python .\Pantalla.py
