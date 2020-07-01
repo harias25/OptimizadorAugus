@@ -1,7 +1,7 @@
-# AUGUS
+# OPTIMIZADOR AUGUS
 
 ## Información General
-- Primer Proyecto de Vacaciones Junio 2020
+- Optimizador del Lenguaje Augus Segundo Proyecto Compiladores 2
 - Creado por Haroldo Arias
 - Carnet 201020247
 - Junio 2020
@@ -21,6 +21,10 @@
 - conda update --all
 - conda install qt      -- este es el diseñador de pantallas
 - conda install pyqt
+
+## Comandos para Herramienta de Estilo en el Editor de Texto
+- pip install pyqt5 --no-cache-dir
+- pip install qscintilla --no-cache-dir
 
 ## Generación de Archivos de Analizadores
 - python .\ascendente.py
