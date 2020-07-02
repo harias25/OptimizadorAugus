@@ -218,6 +218,7 @@ class Ui_MainWindow(object):
         self.listado_gramatical = []
         self.instrucciones = []
         self.hilo_terminado = True
+        self.optimizador = Optimizador()
 
         
 
@@ -227,11 +228,11 @@ class Ui_MainWindow(object):
         self.consola.clear()
 
     def generarTabla(self):
-        pass
+        self.optimizador.reporte()
 
     def ascendente(self):
-        optimizador = Optimizador()
-        optimizador.optimizar(self)
+        self.optimizador = Optimizador()
+        self.optimizador.optimizar(self)
 
     def exit(self):
         sys.exit()

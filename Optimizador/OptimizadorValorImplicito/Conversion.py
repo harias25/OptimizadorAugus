@@ -15,7 +15,7 @@ class Conversion(Instruccion):
     def optmimizarCodigo(self):
         antes = self.generarAugus()
         resultado = OptmizacionResultado()
-        resultado.codigo = antes;
+        resultado.codigo = antes
         return resultado
 
     def generarAugus(self):

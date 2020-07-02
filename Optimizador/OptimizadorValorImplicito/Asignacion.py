@@ -15,7 +15,7 @@ class Asignacion(Instruccion):
     def optmimizarCodigo(self):
         antes = self.generarAugus()
         resultado = OptmizacionResultado()
-        resultado.codigo = antes;
+        resultado.codigo = antes
         return resultado
 
     def generarAugus(self):
@@ -23,9 +23,70 @@ class Asignacion(Instruccion):
             codigoAugus = self.id+" = &"+self.valor.generarAugus()+";\n"
         else:
             codigoAugus = self.id+" = "+self.valor.generarAugus()+";\n"
-            if(self.valor.tipo == TIPO_OPERACION.SUMA ):
+            optimizacion = Optimizacion()
+            optimizacion.linea = str(self.linea)
+            optimizacion.antes = codigoAugus
+            optimizacion.tipo = "Mirilla - Eliminación de Instrucciones Redundantes y de Almacenamiento"
+
+            if(self.valor.tipo == TIPO_OPERACION.SUMA):
                 if(self.valor.validarRegla8(self.id)):
+                    optimizacion.regla = "Regla 8"
+                    optimizacion.despues = ""
+                    ReporteOptimizacion.func(optimizacion)
                     return ""
+                elif(self.valor.validarRegla12()!=""):
+                    codigoAugus = self.id+" = "+self.valor.validarRegla12()+";\n"
+                    optimizacion.regla = "Regla 12"
+                    optimizacion.despues = codigoAugus
+                    ReporteOptimizacion.func(optimizacion)
+            elif(self.valor.tipo == TIPO_OPERACION.RESTA):
+                if(self.valor.validarRegla9(self.id)):
+                    optimizacion.regla = "Regla 9"
+                    optimizacion.despues = ""
+                    ReporteOptimizacion.func(optimizacion)
+                    return ""
+                elif(self.valor.validarRegla13()!=""):
+                    codigoAugus = self.id+" = "+self.valor.validarRegla13()+";\n"
+                    optimizacion.regla = "Regla 13"
+                    optimizacion.despues = codigoAugus
+                    ReporteOptimizacion.func(optimizacion)
+            elif(self.valor.tipo == TIPO_OPERACION.MULTIPLICACION):
+                if(self.valor.validarRegla10_11(self.id)):
+                    optimizacion.regla = "Regla 10"
+                    optimizacion.despues = ""
+                    ReporteOptimizacion.func(optimizacion)
+                    return ""
+                elif(self.valor.validarRegla14_15()!=""):
+                    codigoAugus = self.id+" = "+self.valor.validarRegla14_15()+";\n"
+                    optimizacion.regla = "Regla 14"
+                    optimizacion.despues = codigoAugus
+                    ReporteOptimizacion.func(optimizacion)
+                elif(self.valor.validarRegla16()!=""):
+                    codigoAugus = self.id+" = "+self.valor.validarRegla16()+";\n"
+                    optimizacion.regla = "Regla 16"
+                    optimizacion.despues = codigoAugus
+                    ReporteOptimizacion.func(optimizacion)
+                elif(self.valor.validarRegla17()!=""):
+                    codigoAugus = self.id+" = "+self.valor.validarRegla17()+";\n"
+                    optimizacion.regla = "Regla 17"
+                    optimizacion.despues = codigoAugus
+                    ReporteOptimizacion.func(optimizacion)
+            elif(self.valor.tipo == TIPO_OPERACION.DIVISION):
+                if(self.valor.validarRegla10_11(self.id)):
+                    optimizacion.regla = "Regla 11"
+                    optimizacion.despues = ""
+                    ReporteOptimizacion.func(optimizacion)
+                    return ""
+                elif(self.valor.validarRegla14_15()!=""):
+                    codigoAugus = self.id+" = "+self.valor.validarRegla14_15()+";\n"
+                    optimizacion.regla = "Regla 15"
+                    optimizacion.despues = codigoAugus
+                    ReporteOptimizacion.func(optimizacion)
+                elif(self.valor.validarRegla18()!=""):
+                    codigoAugus = self.id+" = "+self.valor.validarRegla18()+";\n"
+                    optimizacion.regla = "Regla 18"
+                    optimizacion.despues = codigoAugus
+                    ReporteOptimizacion.func(optimizacion)
             else:
                 codigoAugus = self.id+" = "+self.valor.generarAugus()+";\n"
 
