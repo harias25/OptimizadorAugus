@@ -11,6 +11,7 @@ class Asignacion(Instruccion):
         self.id = id
         self.valor = valor
         self.parametro = parametro
+        self.instruccionPrevia = None
 
     def optmimizarCodigo(self):
         antes = self.generarAugus()
@@ -51,13 +52,13 @@ class Asignacion(Instruccion):
                     optimizacion.despues = codigoAugus
                     ReporteOptimizacion.func(optimizacion)
             elif(self.valor.tipo == TIPO_OPERACION.MULTIPLICACION):
-                if(self.valor.validarRegla10_11(self.id)):
+                if(self.valor.validarRegla10(self.id)):
                     optimizacion.regla = "Regla 10"
                     optimizacion.despues = ""
                     ReporteOptimizacion.func(optimizacion)
                     return ""
-                elif(self.valor.validarRegla14_15()!=""):
-                    codigoAugus = self.id+" = "+self.valor.validarRegla14_15()+";\n"
+                elif(self.valor.validarRegla14()!=""):
+                    codigoAugus = self.id+" = "+self.valor.validarRegla14()+";\n"
                     optimizacion.regla = "Regla 14"
                     optimizacion.despues = codigoAugus
                     ReporteOptimizacion.func(optimizacion)
@@ -72,13 +73,13 @@ class Asignacion(Instruccion):
                     optimizacion.despues = codigoAugus
                     ReporteOptimizacion.func(optimizacion)
             elif(self.valor.tipo == TIPO_OPERACION.DIVISION):
-                if(self.valor.validarRegla10_11(self.id)):
+                if(self.valor.validarRegla11(self.id)):
                     optimizacion.regla = "Regla 11"
                     optimizacion.despues = ""
                     ReporteOptimizacion.func(optimizacion)
                     return ""
-                elif(self.valor.validarRegla14_15()!=""):
-                    codigoAugus = self.id+" = "+self.valor.validarRegla14_15()+";\n"
+                elif(self.valor.validarRegla15()!=""):
+                    codigoAugus = self.id+" = "+self.valor.validarRegla15()+";\n"
                     optimizacion.regla = "Regla 15"
                     optimizacion.despues = codigoAugus
                     ReporteOptimizacion.func(optimizacion)
@@ -87,6 +88,15 @@ class Asignacion(Instruccion):
                     optimizacion.regla = "Regla 18"
                     optimizacion.despues = codigoAugus
                     ReporteOptimizacion.func(optimizacion)
+            elif(self.valor.tipo == TIPO_OPERACION.ID):
+                codigoAugus = self.id+" = "+self.valor.generarAugus()+";\n"
+                if self.instruccionPrevia !=None:
+                    if self.instruccionPrevia.valor.tipo == TIPO_OPERACION.ID:
+                        if(self.valor.validarRegla1(self.id,self.valor.valor,self.instruccionPrevia.id,self.instruccionPrevia.valor.valor)):
+                            optimizacion.regla = "Regla 1"
+                            optimizacion.despues = ""
+                            ReporteOptimizacion.func(optimizacion)
+                            return ""
             else:
                 codigoAugus = self.id+" = "+self.valor.generarAugus()+";\n"
 

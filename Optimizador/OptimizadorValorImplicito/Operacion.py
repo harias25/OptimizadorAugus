@@ -206,6 +206,12 @@ class Operacion(Expresion):
             return "~"+self.operadorIzq.generarAugus()
         
 
+    def validarRegla1(self,varActual,varAsigna,varPrevia,varAsignaPrevia):
+        if(varAsignaPrevia==varActual and varPrevia == varAsigna):
+            return True
+        
+        return False
+
     # temporal = temporal + 0
     # temporal = 0 + temporal
     def validarRegla8(self,id):
@@ -234,8 +240,23 @@ class Operacion(Expresion):
         return False
 
     # temporal = temporal * 1
+    # temporal = 1 * temporal
+    def validarRegla10(self,id):
+        if self.operadorIzq.tipo == TIPO_OPERACION.ID and self.operadorDer.tipo == TIPO_OPERACION.PRIMITIVO:
+            if(self.operadorIzq.valor == id):
+                value = self.operadorDer.generarAugus()
+                if(value == "1"):
+                    return True
+        elif self.operadorDer.tipo == TIPO_OPERACION.ID and self.operadorIzq.tipo == TIPO_OPERACION.PRIMITIVO:
+            if(self.operadorDer.valor == id):
+                value = self.operadorIzq.generarAugus()
+                if(value == "1"):
+                    return True
+
+        return False
+
     # temporal = temporal / 1
-    def validarRegla10_11(self,id):
+    def validarRegla11(self,id):
         if self.operadorIzq.tipo == TIPO_OPERACION.ID and self.operadorDer.tipo == TIPO_OPERACION.PRIMITIVO:
             if(self.operadorIzq.valor == id):
                 value = self.operadorDer.generarAugus()
@@ -269,8 +290,22 @@ class Operacion(Expresion):
         return ""
 
     # temporal = tempora2 * 1
+    # temporal = 1 * tempora2 
+    def validarRegla14(self):
+        if self.operadorIzq.tipo == TIPO_OPERACION.ID and self.operadorDer.tipo == TIPO_OPERACION.PRIMITIVO:
+            value = self.operadorDer.generarAugus()
+            if(value == "1"):
+                return self.operadorIzq.valor
+
+        elif self.operadorDer.tipo == TIPO_OPERACION.ID and self.operadorIzq.tipo == TIPO_OPERACION.PRIMITIVO:
+            value = self.operadorIzq.generarAugus()
+            if(value == "1"):
+                return self.operadorDer.valor
+
+        return ""
+
     # temporal = tempora2 / 1
-    def validarRegla14_15(self):
+    def validarRegla15(self):
         if self.operadorIzq.tipo == TIPO_OPERACION.ID and self.operadorDer.tipo == TIPO_OPERACION.PRIMITIVO:
             value = self.operadorDer.generarAugus()
             if(value == "1"):
@@ -289,8 +324,13 @@ class Operacion(Expresion):
 
     # temporal = temporal * 0
     def validarRegla17(self):
-        if self.operadorIzq.tipo == TIPO_OPERACION.ID and self.operadorDer.tipo == TIPO_OPERACION.PRIMITIVO:
+        if self.operadorDer.tipo == TIPO_OPERACION.PRIMITIVO:
             value = self.operadorDer.generarAugus()
+            if(value == "0"):
+                return "0"
+
+        elif self.operadorIzq.tipo == TIPO_OPERACION.PRIMITIVO:
+            value = self.operadorIzq.generarAugus()
             if(value == "0"):
                 return "0"
 
