@@ -16,7 +16,7 @@ class Optimizador():
         self.codigoAnterior = ""
         self.instrucciones = []
 
-    def optimizar(self, texto):
+    def optimizar(self, texto,aplicaBloques=False):
         self.codigoAnterior = texto
         self.codigoOptimizado = ""
         g.textoEntrada = texto
@@ -39,7 +39,7 @@ class Optimizador():
                     if(func.id in ast.etiquetasBetadas):
                         continue
 
-                    self.codigoOptimizado +=func.optmimizarCodigo(ast)
+                    self.codigoOptimizado +=func.optmimizarCodigo(ast,aplicaBloques)
                 #except:
                 #    pass
 

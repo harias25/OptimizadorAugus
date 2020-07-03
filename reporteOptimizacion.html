@@ -17,38 +17,53 @@
 <TH  style="font-size: 18px; width:10%; color:white" align=center>Linea</TH>
 </TR>
 <TD style="font-size: 15px; color:white;" align=center>0</TD>
-<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Código Inalcanzable</TD>
-<TD style="font-size: 15px; color:white;" color:white align=center>Regla 3</TD>
-<TD style="font-size: 15px; color:white;" color:white align=center><div><p>if( $t47==0 ) goto L9;
-</p><p>goto L11</p><p>L9:</p><p>[instrucciones]</p><p>L11:</p></div></TD>
-<TD style="font-size: 15px; color:white;" color:white align=center><div><p>if( $t47!=0 ) goto L11;
-</p><p>[instrucciones]</p><p>L11:</p></div></TD>
-<TD style="font-size: 15px; color:white;" color:white align=center>81</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Codigo Inalcanzable</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 5</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>if( 1==2 ) goto L1;
+</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>4</TD>
 </TR>
 <TD style="font-size: 15px; color:white;" align=center>1</TD>
-<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Código Inalcanzable</TD>
-<TD style="font-size: 15px; color:white;" color:white align=center>Regla 3</TD>
-<TD style="font-size: 15px; color:white;" color:white align=center><div><p>if( $t81!=150 ) goto L65;
-</p><p>goto L66</p><p>L65:</p><p>[instrucciones]</p><p>L66:</p></div></TD>
-<TD style="font-size: 15px; color:white;" color:white align=center><div><p>if( $t81==150 ) goto L66;
-</p><p>[instrucciones]</p><p>L66:</p></div></TD>
-<TD style="font-size: 15px; color:white;" color:white align=center>312</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Bloques - Eliminación de Código Parcialmente Muerto</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 19</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center><div>L1:
+    print("instrucciones que se deben de borrar\n");
+    print("instrucciones que se deben de borrar\n");
+    goto L3;
+</div></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>6</TD>
 </TR>
 <TD style="font-size: 15px; color:white;" align=center>2</TD>
-<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Código Inalcanzable</TD>
-<TD style="font-size: 15px; color:white;" color:white align=center>Regla 2</TD>
-<TD style="font-size: 15px; color:white;" color:white align=center><div><p>goto L11;
+<TD style="font-size: 15px; color:white;" color:white align=center>Bloques - Eliminación de Código Muerto</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 20</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center><div><p>goto L2;
 </p></div></TD>
-<TD style="font-size: 15px; color:white;" color:white align=center>L11:</TD>
-<TD style="font-size: 15px; color:white;" color:white align=center>83</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>4</TD>
 </TR>
 <TD style="font-size: 15px; color:white;" align=center>3</TD>
-<TD style="font-size: 15px; color:white;" color:white align=center>Mirilla - Eliminación de Código Inalcanzable</TD>
-<TD style="font-size: 15px; color:white;" color:white align=center>Regla 2</TD>
-<TD style="font-size: 15px; color:white;" color:white align=center><div><p>goto L66;
-</p></div></TD>
-<TD style="font-size: 15px; color:white;" color:white align=center>L67:</TD>
-<TD style="font-size: 15px; color:white;" color:white align=center>313</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Bloques - Redundancia Parcial Código Invariante</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>Regla 24</TD>
+<TD style="font-size: 15px; color:white;" color:white align=center><div>    $t8 = 0;
+    $t9 = $t12[$t8];
+    $t10 = $t9-1;
+    print("");
+    print($t10);
+    print("\n");
+</div></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center><div>    $t8 = 0;
+    $t9 = $t12[$t8];
+    $t10 = $t9-1;
+
+L24:
+    print("");
+    print($t10);
+    print("\n");
+    goto L24;
+</div></TD>
+<TD style="font-size: 15px; color:white;" color:white align=center>42</TD>
 </TR>
 
 </center>
