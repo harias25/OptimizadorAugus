@@ -44,12 +44,16 @@ class Optimizador():
                         if(isinstance(ins,Asignacion)):
                             ins.instruccionPrevia = asignacionPrevia
                             asignacionPrevia = ins
-
+                        elif(isinstance(ins,If)):
+                            ins.ast = ast
+                            ins.instrucciones = func.instrucciones[contador+1:]
+                            
                         optimizado = ins.optmimizarCodigo().codigo
                         #Regla 2 Mirilla
                         if(isinstance(ins,GoTo)):
-                            if('goto' in codigoAnterior):
+                            if(codigoAnterior.startswith('goto')):
                                 if(isinstance(instruccionAnterior,If)):
+                                    codigoAnterior = ""
                                     continue
                                 else:
                                     optimizacion = Optimizacion() #si hay optimización
@@ -59,7 +63,11 @@ class Optimizador():
                                     optimizacion.regla = "Regla 20"
                                     optimizacion.tipo = "Bloques - Eliminación de Código Muerto"
                                     ReporteOptimizacion.func(optimizacion)
+                                    codigoAnterior = ''
                             elif(ast.existeEtiqueta(ins.id)):
+                                if(optimizado!=""):
+                                    self.codigoOptimizado += "    "+optimizado
+                                    codigoAnterior = optimizado
                                 if(len(func.instrucciones[contador+1:]) == 0): continue  #si no existen mas instrucciones no hay optimización
                                 optimizacion = Optimizacion() #si hay optimización
                                 optimizacion.linea = str(ins.linea)
@@ -72,16 +80,18 @@ class Optimizador():
                                 optimizacion.regla = "Regla 2"
                                 optimizacion.tipo = "Mirilla - Eliminación de Código Inalcanzable"
                                 ReporteOptimizacion.func(optimizacion)
+                                codigoAnterior = ''
                                 break
                             else:
                                 if(optimizado!=""):
                                     self.codigoOptimizado += "    "+optimizado
-                        elif(isinstance(ins,If)):
-                            pass
+                                    codigoAnterior = optimizado
                         else:
                             if(optimizado!=""):
                                 self.codigoOptimizado += "    "+optimizado
+                                codigoAnterior = optimizado
 
+                        instruccionAnterior = ins
                         contador = contador + 1
                     # except:
                     #    pass

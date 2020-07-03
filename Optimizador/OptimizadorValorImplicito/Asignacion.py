@@ -27,7 +27,7 @@ class Asignacion(Instruccion):
             optimizacion = Optimizacion()
             optimizacion.linea = str(self.linea)
             optimizacion.antes = codigoAugus
-            optimizacion.tipo = "Mirilla - Eliminación de Instrucciones Redundantes y de Almacenamiento"
+            optimizacion.tipo = "Mirilla - Simplificación algebraica y por fuerza"
 
             if(self.valor.tipo == TIPO_OPERACION.SUMA):
                 if(self.valor.validarRegla8(self.id)):
@@ -93,6 +93,7 @@ class Asignacion(Instruccion):
                 if self.instruccionPrevia !=None:
                     if self.instruccionPrevia.valor.tipo == TIPO_OPERACION.ID:
                         if(self.valor.validarRegla1(self.id,self.valor.valor,self.instruccionPrevia.id,self.instruccionPrevia.valor.valor)):
+                            optimizacion.tipo = "Mirilla - Eliminación de Instrucciones Redundantes y de Almacenamiento"
                             optimizacion.regla = "Regla 1"
                             optimizacion.despues = ""
                             ReporteOptimizacion.func(optimizacion)

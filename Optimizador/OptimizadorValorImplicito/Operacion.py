@@ -209,7 +209,27 @@ class Operacion(Expresion):
     def validarRegla1(self,varActual,varAsigna,varPrevia,varAsignaPrevia):
         if(varAsignaPrevia==varActual and varPrevia == varAsigna):
             return True
-        
+        return False
+
+    def validarRegla4(self):
+        if self.operadorIzq.tipo == TIPO_OPERACION.PRIMITIVO and self.operadorDer.tipo == TIPO_OPERACION.PRIMITIVO:
+            value = self.operadorIzq.generarAugus()
+            value2 = self.operadorDer.generarAugus()
+            if(value == value2):
+                return True
+        elif self.operadorIzq.tipo == TIPO_OPERACION.ID and self.operadorDer.tipo == TIPO_OPERACION.ID:
+            value = self.operadorIzq.generarAugus()
+            value2 = self.operadorDer.generarAugus()
+            if(value == value2):
+                return True
+        return False
+
+    def validarRegla5(self):
+        if self.operadorIzq.tipo == TIPO_OPERACION.PRIMITIVO and self.operadorDer.tipo == TIPO_OPERACION.PRIMITIVO:
+            value = self.operadorIzq.generarAugus()
+            value2 = self.operadorDer.generarAugus()
+            if(value != value2):
+                return True
         return False
 
     # temporal = temporal + 0
