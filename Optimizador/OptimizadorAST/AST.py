@@ -3,6 +3,7 @@ class AST:
     def __init__(self,instrucciones):
         self.instrucciones = instrucciones
         self.etiquetas = []
+        self.etiquetasBetadas = []
 
     def existeEtiqueta(self,id):
         for etiqueta in self.etiquetas:

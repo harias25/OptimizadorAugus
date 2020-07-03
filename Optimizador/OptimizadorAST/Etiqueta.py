@@ -12,10 +12,13 @@ class Etiqueta(Instruccion):
         self.linea = linea
         self.columna = columna
         self.codigoOptimizado = ""
+        self.imprimirEtiqueta = True
 
     def optmimizarCodigo(self,ast):
                 self.codigoOptimizado = ""
-                self.codigoOptimizado += self.id+":\n"
+                if(self.imprimirEtiqueta):
+                    self.codigoOptimizado += self.id+":\n"
+
                 contador = 0
                 instruccionAnterior = None
                 asignacionPrevia = None
@@ -25,12 +28,36 @@ class Etiqueta(Instruccion):
                         if(isinstance(ins,Asignacion)):
                             ins.instruccionPrevia = asignacionPrevia
                             asignacionPrevia = ins
-                        elif(isinstance(ins,If) or isinstance(ins,GoTo)):
+                        elif(isinstance(ins,GoTo)):
                             ins.ast = ast
-                            if(isinstance(ins,If)):
-                                ins.instrucciones = self.instrucciones[contador+1:]
-                            
-                        optimizado = ins.optmimizarCodigo().codigo
+                        elif(isinstance(ins,If)):
+                            ins.instrucciones = self.instrucciones[contador+1:]
+
+                        optimizado = ""
+                        if(isinstance(ins,If)): 
+                            optimizado = ins.optmimizarCodigo(ast).codigo
+                            if(len(ReporteOptimizacion.func(None))>0):
+                                if(ReporteOptimizacion.func(None)[-1].regla=="Regla 19"):
+                                    if(len(self.instrucciones[contador+1:]) == 0): continue  #si no existen mas instrucciones no hay optimización
+                                    optimizacion = Optimizacion() #si hay optimización
+                                    optimizacion.linea = str(ins.linea)
+                                    codigoOptimizar="<div>"
+                                    for i in self.instrucciones[contador+1:]:
+                                        if(isinstance(i,GoTo)):
+                                            i.ast = ast
+                                        elif(isinstance(ins,If)):
+                                            continue
+                                        codigoOptimizar+="<p>"+i.optmimizarCodigo().codigo+"</p>"
+                                    codigoOptimizar+="</div>"
+                                    optimizacion.antes = codigoOptimizar
+                                    optimizacion.despues = ""
+                                    optimizacion.regla = "Regla 20"
+                                    optimizacion.tipo = "Bloques - Eliminación de Código Muerto"
+                                    ReporteOptimizacion.func(optimizacion)
+                                    codigoAnterior = ''
+                                    break    
+                        else:
+                            optimizado = ins.optmimizarCodigo().codigo
                         #Regla 2 Mirilla
                         if(isinstance(ins,GoTo)):
                             if(codigoAnterior.startswith('goto')):
@@ -41,7 +68,7 @@ class Etiqueta(Instruccion):
                                     optimizacion = Optimizacion() #si hay optimización
                                     optimizacion.linea = str(ins.linea)
                                     optimizacion.antes = codigoOptimizar
-                                    optimizacion.despues = ins.id+":"
+                                    optimizacion.despues = ""
                                     optimizacion.regla = "Regla 20"
                                     optimizacion.tipo = "Bloques - Eliminación de Código Muerto"
                                     ReporteOptimizacion.func(optimizacion)
@@ -55,6 +82,10 @@ class Etiqueta(Instruccion):
                                 optimizacion.linea = str(ins.linea)
                                 codigoOptimizar="<div>"
                                 for i in self.instrucciones[contador+1:]:
+                                    if(isinstance(i,GoTo)):
+                                        i.ast = ast
+                                    elif(isinstance(ins,If)):
+                                        continue
                                     codigoOptimizar+="<p>"+i.optmimizarCodigo().codigo+"</p>"
                                 codigoOptimizar+="</div>"
                                 optimizacion.antes = codigoOptimizar

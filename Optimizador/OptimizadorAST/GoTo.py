@@ -13,26 +13,26 @@ class GoTo(Instruccion) :
     def optmimizarCodigo(self):
         antes = self.generarAugus()
         resultado = OptmizacionResultado()
-        resultado.codigo = antes;
+        resultado.codigo = antes
         return resultado
 
     def generarAugus(self):
         codigoAugus = "goto "+self.id+";\n"
 
-        #validacion de regla 6 Mirilla
-        optimizacion = Optimizacion()
-        optimizacion.linea = str(self.linea)
-        optimizacion.antes = codigoAugus
-        optimizacion.tipo = "Mirilla - Optimizaciones de flujo de control"
-        optimizacion.regla = "Regla 6"
 
+        etiqueta = self.ast.obtenerEtiqueta(self.id)
         try:
-            etiqueta = self.ast.obtenerEtiqueta(self.id)
-
-            if isinstance(etiqueta.instrucciones[0],GoTo):
-                codigoAugus = "goto "+etiqueta.instrucciones[0].id+";\n"
-                optimizacion.despues = codigoAugus
-                ReporteOptimizacion.func(optimizacion)
+            if(len(etiqueta.instrucciones)>0):
+                #validacion de regla 6 Mirilla
+                optimizacion = Optimizacion()
+                optimizacion.linea = str(self.linea)
+                optimizacion.antes = codigoAugus
+                optimizacion.tipo = "Mirilla - Optimizaciones de flujo de control"
+                optimizacion.regla = "Regla 6"
+                if isinstance(etiqueta.instrucciones[0],GoTo):
+                    codigoAugus = "goto "+etiqueta.instrucciones[0].id+";\n"
+                    optimizacion.despues = codigoAugus
+                    ReporteOptimizacion.func(optimizacion)
         except:
             pass
 

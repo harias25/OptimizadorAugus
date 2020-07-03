@@ -232,7 +232,11 @@ class Ui_MainWindow(object):
 
     def ascendente(self):
         self.optimizador = Optimizador()
-        self.optimizador.optimizar(self)
+        self.optimizador.inicializar()
+        codigo = self.optimizador.optimizar(self.editor.text())
+        codigo2 =self.optimizador.optimizar(codigo)
+        self.consola.clear()
+        self.consola.append(codigo2)
 
     def exit(self):
         sys.exit()

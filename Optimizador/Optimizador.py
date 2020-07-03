@@ -10,14 +10,18 @@ class Optimizador():
         self.codigoAnterior = ""
         self.instrucciones = []
 
-    def optimizar(self, ventana):
-        self.codigoAnterior = ventana.editor.text()
-        self.codigoOptimizado = ""
-        ventana.consola.clear()
+    def inicializar(self):
         ReporteOptimizacion.func(None, True)
-        g.textoEntrada = ventana.editor.text()
+        self.codigoOptimizado = ""
+        self.codigoAnterior = ""
+        self.instrucciones = []
+
+    def optimizar(self, texto):
+        self.codigoAnterior = texto
+        self.codigoOptimizado = ""
+        g.textoEntrada = texto
         g.func(0, None)
-        instrucciones = g.parse(ventana.editor.text())
+        instrucciones = g.parse(texto)
         self.instrucciones = instrucciones
         ast = AST(self.instrucciones)
         #PRIMERA PASADA PARA GUARDAR TODAS LAS ETIQUETAS
@@ -31,9 +35,15 @@ class Optimizador():
 
         if(instrucciones != None):
             for func in instrucciones:
-                self.codigoOptimizado +=func.optmimizarCodigo(ast)
-    
-        ventana.consola.append(self.codigoOptimizado)
+                #try:
+                    if(func.id in ast.etiquetasBetadas):
+                        continue
+
+                    self.codigoOptimizado +=func.optmimizarCodigo(ast)
+                #except:
+                #    pass
+
+        return self.codigoOptimizado
 
     def reporte(self):
         reporte = ReporteOptimizacion.ReporteOptimizacion()

@@ -206,6 +206,37 @@ class Operacion(Expresion):
             return "~"+self.operadorIzq.generarAugus()
         
 
+    def invertirCondicion(self):
+        #MAYOR
+        #if(self.tipo == TIPO_OPERACION.MAYOR_QUE):
+        #    return self.operadorIzq.generarAugus() + "<=" + self.operadorDer.generarAugus()
+            
+        #MAYOR IGUAL
+        #elif(self.tipo == TIPO_OPERACION.MAYOR_IGUA_QUE):
+        #    return self.operadorIzq.generarAugus() + "<" + self.operadorDer.generarAugus()
+            
+        #MENOR
+        #elif(self.tipo == TIPO_OPERACION.MENOR_QUE):
+        #    return self.operadorIzq.generarAugus() + ">=" + self.operadorDer.generarAugus()
+            
+        #MENOR IGUAL
+        #elif(self.tipo == TIPO_OPERACION.MENOR_IGUA_QUE):
+        #    return self.operadorIzq.generarAugus() + ">" + self.operadorDer.generarAugus()
+            
+        #IGUAL
+        if(self.tipo == TIPO_OPERACION.IGUAL_IGUAL):
+            return self.operadorIzq.generarAugus() + "!=" + self.operadorDer.generarAugus()
+            
+        #DIFERENTE
+        elif(self.tipo == TIPO_OPERACION.DIFERENTE_QUE):
+            return self.operadorIzq.generarAugus() + "==" + self.operadorDer.generarAugus()
+        #NOT
+        elif(self.tipo == TIPO_OPERACION.NOT):
+            return self.operadorIzq.generarAugus()
+        else:
+            return self.generarAugus()
+
+
     def validarRegla1(self,varActual,varAsigna,varPrevia,varAsignaPrevia):
         if(varAsignaPrevia==varActual and varPrevia == varAsigna):
             return True
