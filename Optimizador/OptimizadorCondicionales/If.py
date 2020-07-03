@@ -2,6 +2,7 @@ from Optimizador.OptimizadorAST.Instruccion import Instruccion
 from Optimizador.OptimizadorReporteria.Optimizacion import Optimizacion , OptmizacionResultado
 import Optimizador.OptimizadorReporteria.ReporteOptimizacion as ReporteOptimizacion
 from Optimizador.OptimizadorValorImplicito.Operacion import TIPO_OPERACION
+from Optimizador.OptimizadorAST.GoTo import GoTo
 
 class If(Instruccion) :
     def __init__(self,  condicion, etiqueta,linea,columna) :
@@ -32,12 +33,34 @@ class If(Instruccion) :
                 optimizacion.regla = "Regla 4"
                 optimizacion.despues = "goto "+self.etiqueta+";"
                 ReporteOptimizacion.func(optimizacion)
-                return "goto "+self.etiqueta+";\n"
+                codigoAugus = "goto "+self.etiqueta+";\n"
             elif(self.condicion.validarRegla5()):
                 optimizacion.regla = "Regla 5"
                 optimizacion.despues = ""
                 ReporteOptimizacion.func(optimizacion)
                 return ""
+
+
+        #validacion de regla 6 o 7 Mirilla
+        optimizacion = Optimizacion()
+        optimizacion.linea = str(self.linea)
+        optimizacion.antes = codigoAugus
+        optimizacion.tipo = "Mirilla - Optimizaciones de flujo de control"
+        if(codigoAugus.startswith('goto')):
+            optimizacion.regla = "Regla 6"
+        else:
+            optimizacion.regla = "Regla 7"
+        try:
+            etiqueta = self.ast.obtenerEtiqueta(self.etiqueta)
+            if isinstance(etiqueta.instrucciones[0],GoTo):
+                if(codigoAugus.startswith('goto')):
+                    codigoAugus = "goto "+etiqueta.instrucciones[0].id+";\n"
+                else:
+                    codigoAugus = "if( "+self.condicion.generarAugus()+" ) goto "+etiqueta.instrucciones[0].id+";\n"
+                optimizacion.despues = codigoAugus
+                ReporteOptimizacion.func(optimizacion)
+        except:
+            pass
         
         return codigoAugus
         
