@@ -8,6 +8,7 @@ class GoTo(Instruccion) :
         self.id = id
         self.linea = linea
         self.columna = columna
+        self.ast = None
 
     def optmimizarCodigo(self):
         antes = self.generarAugus()
@@ -17,4 +18,22 @@ class GoTo(Instruccion) :
 
     def generarAugus(self):
         codigoAugus = "goto "+self.id+";\n"
+
+        #validacion de regla 6 Mirilla
+        optimizacion = Optimizacion()
+        optimizacion.linea = str(self.linea)
+        optimizacion.antes = codigoAugus
+        optimizacion.tipo = "Mirilla - Optimizaciones de flujo de control"
+        optimizacion.regla = "Regla 6"
+
+        try:
+            etiqueta = self.ast.obtenerEtiqueta(self.id)
+
+            if isinstance(etiqueta.instrucciones[0],GoTo):
+                codigoAugus = "goto "+etiqueta.instrucciones[0].id+";\n"
+                optimizacion.despues = codigoAugus
+                ReporteOptimizacion.func(optimizacion)
+        except:
+            pass
+
         return codigoAugus
